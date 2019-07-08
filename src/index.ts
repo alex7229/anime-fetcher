@@ -2,6 +2,8 @@
 import * as puppeteer from "puppeteer";
 import parseEpisodesListPage from "./parser/parseEpisodesListPage";
 import getDownloadedEpisodesList from "./getDownloadedEpisodesList";
+import parseEpisodePage from "./parser/parseEpisodePage";
+import parseHostingPage from "./parser/parseHostingPage";
 
 (async () => {
   const downloadedEpisodes = await getDownloadedEpisodesList();
@@ -10,7 +12,15 @@ import getDownloadedEpisodesList from "./getDownloadedEpisodesList";
   const newEpisodesInfo = allEpisodesInfo.filter(
     info => !downloadedEpisodes.includes(info.episodeNumber)
   );
-  console.log(newEpisodesInfo);
+  const kissanimeEpisodePageUrl = newEpisodesInfo[22].url;
+  const episodeHostingPageUrl = await parseEpisodePage(
+    kissanimeEpisodePageUrl,
+    browser
+  );
+  const actualVideoUrl = await parseHostingPage(browser, episodeHostingPageUrl);
+  console.log(kissanimeEpisodePageUrl);
+  console.log(episodeHostingPageUrl);
+  console.log(actualVideoUrl);
   await browser.close();
 
   // await downloadEpisode({
