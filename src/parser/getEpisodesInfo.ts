@@ -1,8 +1,9 @@
 import { Page } from "puppeteer";
+import parseEpisodeUrl from "./parseEpisodeUrl";
 
-interface EpisodeInfo {
+export interface EpisodeInfo {
   readonly url: string;
-  readonly episode: number;
+  readonly episodeNumber: number;
 }
 type GetEpisodesInfo = (
   page: Page,
@@ -10,7 +11,15 @@ type GetEpisodesInfo = (
 ) => Promise<EpisodeInfo[]>;
 
 const getEpisodesInfo: GetEpisodesInfo = async (page, sinceEpisodeNumber) => {
-  return [];
+  const links = await page.evaluate(() =>
+    [...document.querySelectorAll("table.listing a")].map(elem =>
+      elem.getAttribute("href")
+    )
+  );
+  return links
+    .map(link => parseEpisodeUrl(link))
+    .filter((link): link is EpisodeInfo => link !== null)
+    .filter(link => link.episodeNumber > sinceEpisodeNumber);
 };
 
 export default getEpisodesInfo;
