@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as Path from "path";
 import Axios from "axios";
-import { EpisodeInfo } from "./parser/getEpisodesInfo";
+import { EpisodeInfo } from "./parser/parseEpisodesListPage";
 
 type DownloadEpisode = (episodeInfo: EpisodeInfo) => Promise<void>;
 

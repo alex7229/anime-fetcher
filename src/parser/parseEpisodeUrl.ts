@@ -1,4 +1,4 @@
-import { EpisodeInfo } from "./getEpisodesInfo";
+import { EpisodeInfo } from "./parseEpisodesListPage";
 
 type ParseEpisodeUrl = (url: string | null) => EpisodeInfo | null;
 
