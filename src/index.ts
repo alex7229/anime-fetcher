@@ -14,18 +14,22 @@ import parseHostingPage from "./parser/parseHostingPage";
     .reverse();
 
   for (const episodeInfo of newEpisodesInfo) {
-    const episodeHostingPageUrl = await parseEpisodePage(
-      episodeInfo.url,
-      browser
-    );
-    const actualVideoUrl = await parseHostingPage(
-      browser,
-      episodeHostingPageUrl
-    );
-    await downloadEpisode({
-      url: actualVideoUrl,
-      episodeNumber: episodeInfo.episodeNumber
-    });
+    try {
+      const episodeHostingPageUrl = await parseEpisodePage(
+        episodeInfo.url,
+        browser
+      );
+      const actualVideoUrl = await parseHostingPage(
+        browser,
+        episodeHostingPageUrl
+      );
+      await downloadEpisode({
+        url: actualVideoUrl,
+        episodeNumber: episodeInfo.episodeNumber
+      });
+    } catch (err) {
+      console.warn(`skipping episode ${episodeInfo.episodeNumber}`);
+    }
   }
 
   await browser.close();
