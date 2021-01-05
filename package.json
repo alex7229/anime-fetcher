@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/tup1tsa/anime-fetcher#readme",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "puppeteer": "^1.18.1",
     "tslint-config-prettier": "^1.18.0"
   },
